@@ -13,6 +13,5 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/object/{key}', 'ApiController@index')->name('test.index');
+Route::post('/object', 'ApiController@store')->name('test.store');

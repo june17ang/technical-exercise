@@ -46,10 +46,10 @@ class ApiController extends Controller
             return response('invalid error msg', 400);
         }
         $key = array_key_first($req);
-        $value = $request->$key;
+        $value = is_array($request->$key) ? json_encode($request->$key) : $request->$key;
 
         $validator = Validator::make($request->all(), [
-            $key => 'required|max:255|string',
+            $key => 'required|max:255',
         ]);
 
         if ($validator->fails()) {

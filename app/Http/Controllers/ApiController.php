@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\RestfulApi;
 use Illuminate\Support\Facades\Validator;
+use Carbon\Carbon;
 
 class ApiController extends Controller
 {
@@ -13,8 +14,15 @@ class ApiController extends Controller
         $status = 200;
         $result = [];
         if ($request->has('timestamp') && !empty($request->timestamp)) {
-            $createdAt = Carbon::parse($request->timestamp)->toDateTimeString();
-            $result = RestfulApi::where('created_at', $createdAt)->pluck('key', 'value')->toArray();
+            if ((string) (int) $request->timestamp === $request->timestamp
+            && ($request->timestamp <= PHP_INT_MAX)
+            && ($request->timestamp >= ~PHP_INT_MAX)) {
+                $createdAt = Carbon::parse(intval($request->timestamp))->toDateTimeString();
+                $result = RestfulApi::where('created_at', $createdAt)->pluck('key', 'value')->toArray();
+            }else {
+                return response('invalid timestamp', 500);
+            }
+
         } elseif ($request->has('key') && !empty($request->key)) {
             $result = RestfulApi::where('key', $request->key)->pluck('key', 'value')->toArray();
         }

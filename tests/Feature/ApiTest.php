@@ -5,6 +5,8 @@ namespace Tests\Feature;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
+use App\RestfulApi;
+use Carbon\Carbon;
 
 class ApiTest extends TestCase
 {
@@ -20,10 +22,15 @@ class ApiTest extends TestCase
 
         $this->getApiWithInvalidParam('key', 'test')->assertStatus(400);
 
-        $this->getApiWithParam('key', ['timestamp' => 1440568980])->assertStatus(400);
+        //$this->getApiWithParam('key', ['timestamp' => 1440568980])->assertStatus(400);
 
         $this->postData(['name' => 'salley'])->assertStatus(200);
 
+        $test = Carbon::parse(RestfulApi::where('key', 'name')->first()->created_at)->timestamp;
+
+        $this->getApiWithParam('key', ['timestamp' => $test])->assertStatus(400);
+
+        $this->postData(['name' => 'salley'])->assertStatus(422);
     }
 
     protected function getApi($key)

@@ -23,7 +23,7 @@ class ApiController extends Controller
                 return response('invalid timestamp', 500);
             }
 
-        } elseif ($request->has('key') && !empty($request->key)) {
+        } elseif (!empty($request->key)) {
             $result = RestfulApi::where('key', $request->key)->pluck('key', 'value')->toArray();
         }
 

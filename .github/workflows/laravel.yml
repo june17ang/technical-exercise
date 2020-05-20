@@ -25,6 +25,9 @@ jobs:
     #   env:
     #     HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
     #   run: heroku container:release -a ${{ secrets.HEROKU_APP_NAME }} web
+    - name: Copy .env
+      run: php -r "file_exists('.env') || copy('.env.ci', '.env');"
+
     - name: Install Dependencies
       run: composer install -q --no-ansi --no-interaction --no-scripts --no-suggest --no-progress --prefer-dist
 

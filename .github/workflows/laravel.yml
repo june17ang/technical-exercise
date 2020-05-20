@@ -14,7 +14,7 @@ jobs:
     - uses: actions/checkout@master
     - uses: akhileshns/heroku-deploy@master
         with:
-          heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+          heroku_api_key: ${{ secrets.HEROKU_API_KEY }}
           heroku_app_name: "technical-exercise"
     - name: Copy .env
       run: php -r "file_exists('.env') || copy('.env.example', '.env');"

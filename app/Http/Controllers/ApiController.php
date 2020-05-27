@@ -29,7 +29,7 @@ class ApiController extends Controller
 
         if ($result) {
             $status = 200;
-            return response(json_encode(['data' => $result]), $status);
+            return response(json_encode(['data' => $result, 'msg' => 'key has been created']), $status);
         }
 
         $result = ['message' => 'value not found'];
